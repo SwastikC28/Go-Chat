@@ -9,10 +9,19 @@ import (
 )
 
 type Client struct {
-	ID   uuid.UUID
-	Conn *websocket.Conn
-	Pool *Pool
-	mu   sync.Mutex
+	ID    uuid.UUID
+	Conn  *websocket.Conn
+	Pool  *Pool
+	mutex *sync.Mutex
+}
+
+func NewClient(conn *websocket.Conn, pool *Pool, mutex *sync.Mutex) *Client {
+	return &Client{
+		ID:    uuid.NewV4(),
+		Conn:  conn,
+		Pool:  pool,
+		mutex: mutex,
+	}
 }
 
 type Message struct {
